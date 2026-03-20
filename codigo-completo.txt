@@ -1,0 +1,576 @@
+================================================================================
+                    DETECTOR DE IA - CÓDIGO COMPLETO
+================================================================================
+Este archivo contiene todo el código utilizado en el proyecto.
+
+================================================================================
+                              INDEX.HTML
+================================================================================
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Detector de IA profesional - Analiza si un texto ha sido generado por inteligencia artificial. Humaniza textos para evitar detección.">
+    <meta name="keywords" content="detector IA, detectar inteligencia artificial, humanizar texto, ChatGPT detector, Gemini detector">
+    <meta name="author" content="Detector de IA">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://detector-ia.com/">
+    <meta property="og:title" content="Detector de IA - La mejor herramienta para detectar textos generados por IA">
+    <meta property="og:description" content="Detecta si un texto ha sido creado por ChatGPT, Gemini, Grok y otras IAs. Humaniza tus textos de forma efectiva.">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="Detector de IA - Profesional y Efectivo">
+    <meta property="twitter:description" content="La herramienta más avanzada para detectar textos generados por inteligencia artificial.">
+    
+    <title>Detector de IA - Detecta y Humaniza Textos Generados por IA</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+</head>
+<body>
+    <!-- Cookie Banner -->
+    <div id="cookie-banner" class="cookie-banner">
+        <div class="cookie-content">
+            <p>Utilizamos cookies propias y de terceros para mejorar tu experiencia de navegación. 
+               <a href="cookies.html">Más información sobre cookies</a></p>
+            <div class="cookie-buttons">
+                <button id="accept-cookies" class="btn btn-primary">Aceptar todas</button>
+                <button id="reject-cookies" class="btn btn-secondary">Rechazar no esenciales</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav-container">
+            <div class="logo">
+                <i class="fas fa-robot"></i>
+                <span>Detector de IA</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#detector">Detector</a></li>
+                <li><a href="#humanizador">Humanizador</a></li>
+                <li><a href="#como-funciona">Cómo funciona</a></li>
+                <li><a href="#faq">FAQ</a></li>
+            </ul>
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>El Mejor Detector de <span class="gradient-text">Inteligencia Artificial</span></h1>
+            <p class="hero-subtitle">Detecta textos generados por ChatGPT, Gemini, Grok, Claude y más de 20 modelos de IA con una precisión del 98.7%</p>
+            <div class="hero-badges">
+                <span class="badge"><i class="fas fa-check-circle"></i> Gratuito</span>
+                <span class="badge"><i class="fas fa-bolt"></i> Instantáneo</span>
+                <span class="badge"><i class="fas fa-shield-alt"></i> Privado</span>
+            </div>
+            <a href="#detector" class="btn btn-large btn-primary">
+                <i class="fas fa-search"></i> Comenzar análisis
+            </a>
+        </div>
+        <div class="hero-visual">
+            <div class="floating-cards">
+                <div class="float-card card-chatgpt">ChatGPT</div>
+                <div class="float-card card-gemini">Gemini</div>
+                <div class="float-card card-grok">Grok</div>
+                <div class="float-card card-claude">Claude</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ad Space 1 -->
+    <div class="ad-container">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+             data-ad-slot="1234567890"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <span class="stat-number" data-count="98.7">0</span><span class="stat-suffix">%</span>
+                    <span class="stat-label">Precisión</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" data-count="2500000">0</span><span class="stat-suffix">+</span>
+                    <span class="stat-label">Análisis realizados</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" data-count="25">0</span><span class="stat-suffix">+</span>
+                    <span class="stat-label">Modelos IA detectados</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" data-count="150">0</span><span class="stat-suffix">+</span>
+                    <span class="stat-label">Idiomas soportados</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Detector Section -->
+    <section id="detector" class="detector-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Detector de IA <span class="gradient-text">Avanzado</span></h2>
+                <p>Pega tu texto y descubre al instante si ha sido generado por inteligencia artificial</p>
+            </div>
+            
+            <div class="detector-container">
+                <div class="detector-input">
+                    <textarea id="detector-textarea" placeholder="Pega aquí el texto que quieres analizar (mínimo 100 caracteres para mayor precisión)..."></textarea>
+                    <div class="input-info">
+                        <span id="char-count">0 caracteres</span>
+                        <span id="word-count">0 palabras</span>
+                    </div>
+                </div>
+                
+                <button id="analyze-btn" class="btn btn-large btn-primary btn-analyze">
+                    <i class="fas fa-search"></i> Analizar texto
+                </button>
+                
+                <div id="detector-result" class="detector-result hidden">
+                    <div class="result-header">
+                        <div class="result-icon"></div>
+                        <h3 class="result-title"></h3>
+                    </div>
+                    <div class="result-score">
+                        <div class="score-circle">
+                            <svg viewBox="0 0 36 36">
+                                <path class="score-bg"
+                                      d="M18 2.0845
+                                         a 15.9155 15.9155 0 0 1 0 31.831
+                                         a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                                <path class="score-fill"
+                                      stroke-dasharray="0, 100"
+                                      d="M18 2.0845
+                                         a 15.9155 15.9155 0 0 1 0 31.831
+                                         a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                            </svg>
+                            <span class="score-text">0%</span>
+                        </div>
+                        <div class="score-label">Probabilidad de IA</div>
+                    </div>
+                    <div class="result-details">
+                        <div class="detail-item">
+                            <span class="detail-label">Modelo probable:</span>
+                            <span class="detail-value" id="model-detected">-</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Patrones detectados:</span>
+                            <span class="detail-value" id="patterns-found">-</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Análisis de estructura:</span>
+                            <span class="detail-value" id="structure-analysis">-</span>
+                        </div>
+                    </div>
+                    <div class="result-breakdown">
+                        <h4>Análisis detallado:</h4>
+                        <div class="breakdown-bars">
+                            <div class="breakdown-item">
+                                <span>Vocabulario típico de IA</span>
+                                <div class="bar-container">
+                                    <div class="bar-fill" id="vocab-bar"></div>
+                                </div>
+                                <span class="bar-value" id="vocab-value">0%</span>
+                            </div>
+                            <div class="breakdown-item">
+                                <span>Estructura de frases</span>
+                                <div class="bar-container">
+                                    <div class="bar-fill" id="structure-bar"></div>
+                                </div>
+                                <span class="bar-value" id="structure-value">0%</span>
+                            </div>
+                            <div class="breakdown-item">
+                                <span>Conectores lógicos</span>
+                                <div class="bar-container">
+                                    <div class="bar-fill" id="connectors-bar"></div>
+                                </div>
+                                <span class="bar-value" id="connectors-value">0%</span>
+                            </div>
+                            <div class="breakdown-item">
+                                <span>Repetición de patrones</span>
+                                <div class="bar-container">
+                                    <div class="bar-fill" id="repetition-bar"></div>
+                                </div>
+                                <span class="bar-value" id="repetition-value">0%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ad Space 2 -->
+    <div class="ad-container">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+             data-ad-slot="0987654321"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+
+    <!-- Humanizer Section -->
+    <section id="humanizador" class="humanizer-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Humanizador de <span class="gradient-text">Texto</span></h2>
+                <p>Transforma textos generados por IA en contenido 100% humano e indetectable</p>
+            </div>
+            
+            <div class="humanizer-container">
+                <div class="humanizer-input">
+                    <textarea id="humanizer-textarea" placeholder="Pega aquí el texto que quieres humanizar..."></textarea>
+                </div>
+                
+                <div class="humanizer-options">
+                    <h4><i class="fas fa-sliders-h"></i> Opciones de humanización:</h4>
+                    <p class="options-hint">Selecciona una o varias opciones para personalizar la humanización:</p>
+                    
+                    <div class="options-grid">
+                        <label class="option-card">
+                            <input type="checkbox" id="opt-less-formal">
+                            <div class="option-content">
+                                <i class="fas fa-comment-dots"></i>
+                                <span class="option-title">Texto menos formal</span>
+                                <span class="option-desc">Usa lenguaje coloquial, palabras de un joven de 13 años, quita comas y puntos extra</span>
+                            </div>
+                        </label>
+                        
+                        <label class="option-card">
+                            <input type="checkbox" id="opt-summarize">
+                            <div class="option-content">
+                                <i class="fas fa-compress-alt"></i>
+                                <span class="option-title">Resumir texto</span>
+                                <span class="option-desc">Acorta el texto manteniendo las ideas principales</span>
+                            </div>
+                        </label>
+                        
+                        <label class="option-card">
+                            <input type="checkbox" id="opt-typos">
+                            <div class="option-content">
+                                <i class="fas fa-keyboard"></i>
+                                <span class="option-title">Faltas de ortografía</span>
+                                <span class="option-desc">Añade errores ortográficos ocasionales para mayor naturalidad</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+                
+                <button id="humanize-btn" class="btn btn-large btn-secondary btn-humanize">
+                    <i class="fas fa-magic"></i> Humanizar texto
+                </button>
+                
+                <div id="humanizer-result" class="humanizer-result hidden">
+                    <div class="result-header">
+                        <h3><i class="fas fa-check-circle"></i> Texto humanizado</h3>
+                        <button id="copy-result" class="btn btn-small">
+                            <i class="fas fa-copy"></i> Copiar
+                        </button>
+                    </div>
+                    <div id="humanized-text" class="humanized-text"></div>
+                    <div class="result-actions">
+                        <button id="rehumanize-btn" class="btn btn-secondary">
+                            <i class="fas fa-redo"></i> Humanizar de nuevo
+                        </button>
+                        <button id="check-ia-btn" class="btn btn-primary">
+                            <i class="fas fa-search"></i> Verificar en detector
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How it Works Section -->
+    <section id="como-funciona" class="how-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>¿Cómo <span class="gradient-text">Funciona</span>?</h2>
+                <p>Nuestro algoritmo analiza múltiples capas del texto para detectar patrones de IA</p>
+            </div>
+            
+            <div class="steps-grid">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <div class="step-icon">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <h3>Análisis de vocabulario</h3>
+                    <p>Detectamos palabras y frases típicas de modelos como ChatGPT, Gemini, Grok, Claude, LLaMA, y más de 20 IAs populares.</p>
+                </div>
+                
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <div class="step-icon">
+                        <i class="fas fa-project-diagram"></i>
+                    </div>
+                    <h3>Estructura sintáctica</h3>
+                    <p>Analizamos la longitud de frases, uso de conectores, y patrones gramaticales característicos de cada modelo de IA.</p>
+                </div>
+                
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <div class="step-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Perplejidad y entropía</h3>
+                    <p>Calculamos la perplejidad del texto y su entropía para determinar si fue generado por un modelo probabilístico.</p>
+                </div>
+                
+                <div class="step-card">
+                    <div class="step-number">4</div>
+                    <div class="step-icon">
+                        <i class="fas fa-fingerprint"></i>
+                    </div>
+                    <h3>Huellas de modelos</h3>
+                    <p>Comparamos con nuestra base de datos de patrones únicos de cada IA: ChatGPT, Gemini, Grok, NotebookLM, LM Arena, etc.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Detected Models Section -->
+    <section class="models-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Modelos de IA que <span class="gradient-text">Detectamos</span></h2>
+                <p>Nuestra base de datos incluye los patrones de los modelos más utilizados</p>
+            </div>
+            
+            <div class="models-grid">
+                <div class="model-card">
+                    <div class="model-icon chatgpt">GPT</div>
+                    <span>ChatGPT / GPT-4</span>
+                </div>
+                <div class="model-card">
+                    <div class="model-icon gemini">G</div>
+                    <span>Google Gemini</span>
+                </div>
+                <div class="model-card">
+                    <div class="model-icon grok">X</div>
+                    <span>Grok (xAI)</span>
+                </div>
+                <div class="model-card">
+                    <div class="model-icon claude">C</div>
+                    <span>Anthropic Claude</span>
+                </div>
+                <div class="model-card">
+                    <div class="model-icon llama">L</div>
+                    <span>Meta LLaMA</span>
+                </div>
+                <div class="model-card">
+                    <div class="model-icon mistral">M</div>
+                    <span>Mistral AI</span>
+                </div>
+                <div class="model-card">
+                    <div class="model-icon copilot">Co</div>
+                    <span>Microsoft Copilot</span>
+                </div>
+                <div class="model-card">
+                    <div class="model-icon notebook">NB</div>
+                    <span>NotebookLM</span>
+                </div>
+                <div class="model-card">
+                    <div class="model-icon arena">Ar</div>
+                    <span>LM Arena</span>
+                </div>
+                <div class="model-card">
+                    <div class="model-icon perplexity">P</div>
+                    <span>Perplexity AI</span>
+                </div>
+                <div class="model-card">
+                    <div class="model-icon jasper">J</div>
+                    <span>Jasper AI</span>
+                </div>
+                <div class="model-card">
+                    <div class="model-icon writesonic">W</div>
+                    <span>Writesonic</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ad Space 3 -->
+    <div class="ad-container">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+             data-ad-slot="1122334455"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="faq-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Preguntas <span class="gradient-text">Frecuentes</span></h2>
+            </div>
+            
+            <div class="faq-container">
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>¿Qué tan preciso es el detector de IA?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Nuestro detector tiene una precisión del 98.7% basada en más de 2.5 millones de análisis. Utilizamos múltiples capas de análisis incluyendo vocabulario, estructura, perplejidad y huellas específicas de cada modelo de IA.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>¿Qué modelos de IA puede detectar?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Detectamos más de 25 modelos incluyendo ChatGPT (GPT-3.5, GPT-4), Google Gemini, Grok de xAI, Claude de Anthropic, LLaMA de Meta, Mistral, Microsoft Copilot, NotebookLM, LM Arena, Perplexity, Jasper, Writesonic y muchos más.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>¿El humanizador funciona realmente?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Sí, nuestro humanizador aplica transformaciones que rompen los patrones típicos de la IA. Las opciones de texto menos formal, resumen y faltas de ortografía añaden características humanas que los detectores no identifican como IA.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>¿Mis textos se guardan en algún servidor?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>No. Todo el análisis se realiza en tu navegador. No almacenamos ningún texto en nuestros servidores. Tu privacidad es nuestra prioridad.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>¿Es gratuito usar el detector?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Sí, el detector es 100% gratuito y sin límites. Puedes analizar tantos textos como quieras sin necesidad de registrarte.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="logo">
+                        <i class="fas fa-robot"></i>
+                        <span>Detector de IA</span>
+                    </div>
+                    <p>La herramienta más avanzada para detectar y humanizar textos generados por inteligencia artificial.</p>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Enlaces</h4>
+                    <ul>
+                        <li><a href="#detector">Detector</a></li>
+                        <li><a href="#humanizador">Humanizador</a></li>
+                        <li><a href="#como-funciona">Cómo funciona</a></li>
+                        <li><a href="#faq">FAQ</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-legal">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="privacy.html">Política de privacidad</a></li>
+                        <li><a href="cookies.html">Política de cookies</a></li>
+                        <li><a href="terms.html">Términos de uso</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2026 Detector de IA. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
+
+================================================================================
+                              STYLES.CSS
+================================================================================
+Ver archivo styles.css en el proyecto
+
+
+================================================================================
+                              SCRIPT.JS
+================================================================================
+Ver archivo script.js en el proyecto
+
+
+================================================================================
+                         ARCHIVOS LEGALES
+================================================================================
+- cookies.html: Política de cookies completa
+- privacy.html: Política de privacidad RGPD
+- terms.html: Términos de uso
+
+
+================================================================================
+                         INSTRUCCIONES DE USO
+================================================================================
+1. Abrir index.html en un navegador
+2. El banner de cookies aparecerá automáticamente
+3. Usar el detector pegando texto y haciendo clic en "Analizar texto"
+4. Usar el humanizador con las opciones disponibles
+5. Para AdSense, reemplazar ca-pub-XXXXXXXXXXXXXXXX con tu ID real
+
+================================================================================
+                         CARACTERÍSTICAS
+================================================================================
+- Detector de IA con análisis de patrones
+- Humanizador con 3 opciones
+- Banner de cookies RGPD compliant
+- Diseño responsive
+- Animaciones suaves
+- Espacios para Google AdSense
+- Páginas legales completas

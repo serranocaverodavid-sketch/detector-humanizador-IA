@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detector de IA - Versión Simple</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --bg-dark: #0f0f1a;
+            --bg-card: #1a1a2e;
+            --text-primary: #ffffff;
+            --text-secondary: #a1a1aa;
+            --border: #27273d;
+            --success: #22c55e;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            padding: 40px 0;
+        }
+        
+        .logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .logo i { color: var(--primary); }
+        
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 16px;
+        }
+        
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+        
+        .tab-btn {
+            flex: 1;
+            padding: 16px;
+            background: var(--bg-card);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            color: var(--text-secondary);
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .tab-btn:hover { border-color: var(--primary); }
+        
+        .tab-btn.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+        }
+        
+        /* Panel */
+        .panel {
+            display: none;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 30px;
+        }
+        
+        .panel.active { display: block; }
+        
+        textarea {
+            width: 100%;
+            min-height: 200px;
+            padding: 20px;
+            background: var(--bg-dark);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 15px;
+            resize: vertical;
+            margin-bottom: 15px;
+        }
+        
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        textarea::placeholder { color: var(--text-secondary); }
+        
+        .char-count {
+            text-align: right;
+            color: var(--text-secondary);
+            font-size: 13px;
+            margin-bottom: 20px;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 16px 32px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 30px rgba(99, 102, 241, 0.4);
+        }
+        
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        /* Result */
+        .result {
+            margin-top: 30px;
+            padding: 25px;
+            background: var(--bg-dark);
+            border-radius: 12px;
+            display: none;
+        }
+        
+        .result.show { display: block; }
+        
+        .result-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .result-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+        
+        .result-icon.human { background: rgba(34, 197, 94, 0.2); color: var(--success); }
+        .result-icon.ai { background: rgba(239, 68, 68, 0.2); color: var(--danger); }
+        .result-icon.mixed { background: rgba(245, 158, 11, 0.2); color: var(--warning); }
+        
+        .result-title {
+            font-size: 20px;
+            font-weight: 700;
+        }
+        
+        .result-title.human { color: var(--success); }
+        .result-title.ai { color: var(--danger); }
+        .result-title.mixed { color: var(--warning); }
+        
+        .score-display {
+            text-align: center;
+            margin: 25px 0;
+        }
+        
+        .score-value {
+            font-size: 48px;
+            font-weight: 800;
+        }
+        
+        .score-label {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+        
+        .details {
+            display: grid;
+            gap: 10px;
+        }
+        
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .detail-row:last-child { border: none; }
+        
+        .detail-label { color: var(--text-secondary); }
+        .detail-value { font-weight: 600; }
+        
+        /* Options */
+        .options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .option {
+            padding: 15px;
+            background: var(--bg-dark);
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: border-color 0.2s;
+        }
+        
+        .option:hover { border-color: var(--primary); }
+        
+        .option.selected { border-color: var(--primary); background: rgba(99, 102, 241, 0.1); }
+        
+        .option input { display: none; }
+        
+        .option-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .option-desc {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+        
+        /* Humanized text */
+        .humanized-text {
+            background: var(--bg-dark);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            line-height: 1.8;
+            white-space: pre-wrap;
+        }
+        
+        .copy-btn {
+            padding: 10px 20px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-primary);
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .copy-btn:hover { border-color: var(--primary); }
+        
+        /* Cookie Banner */
+        .cookie-banner {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--bg-card);
+            border-top: 1px solid var(--border);
+            padding: 20px;
+            transform: translateY(100%);
+            transition: transform 0.3s;
+            z-index: 1000;
+        }
+        
+        .cookie-banner.show { transform: translateY(0); }
+        
+        .cookie-content {
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .cookie-content p { flex: 1; color: var(--text-secondary); font-size: 14px; }
+        
+        .cookie-btns { display: flex; gap: 10px; }
+        
+        .cookie-btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            border: none;
+        }
+        
+        .cookie-btn.accept {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .cookie-btn.reject {
+            background: var(--bg-dark);
+            color: var(--text-secondary);
+            border: 1px solid var(--border);
+        }
+        
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 100px;
+            right: 20px;
+            background: var(--bg-card);
+            border: 1px solid var(--success);
+            padding: 15px 25px;
+            border-radius: 10px;
+            transform: translateX(150%);
+            transition: transform 0.3s;
+            z-index: 1001;
+        }
+        
+        .toast.show { transform: translateX(0); }
+        
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+        
+        footer a { color: var(--primary); text-decoration: none; }
+        
+        @media (max-width: 600px) {
+            .tabs { flex-direction: column; }
+            .cookie-content { flex-direction: column; text-align: center; }
+            .cookie-btns { width: 100%; justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-robot"></i>
+                <span>Detector de IA</span>
+            </div>
+            <p class="subtitle">Detecta y humaniza textos generados por inteligencia artificial</p>
+        </header>
+        
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="detector">
+                <i class="fas fa-search"></i> Detector
+            </button>
+            <button class="tab-btn" data-tab="humanizer">
+                <i class="fas fa-magic"></i> Humanizador
+            </button>
+        </div>
+        
+        <!-- Detector Panel -->
+        <div class="panel active" id="detector-panel">
+            <textarea id="detect-input" placeholder="Pega aquí el texto que quieres analizar..."></textarea>
+            <div class="char-count"><span id="detect-chars">0</span> caracteres</div>
+            <button class="btn" id="detect-btn">
+                <i class="fas fa-search"></i> Analizar texto
+            </button>
+            
+            <div class="result" id="detect-result">
+                <div class="result-header">
+                    <div class="result-icon" id="result-icon"></div>
+                    <div class="result-title" id="result-title"></div>
+                </div>
+                <div class="score-display">
+                    <div class="score-value" id="score-value">0%</div>
+                    <div class="score-label">Probabilidad de IA</div>
+                </div>
+                <div class="details">
+                    <div class="detail-row">
+                        <span class="detail-label">Modelo probable:</span>
+                        <span class="detail-value" id="model">-</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Patrones detectados:</span>
+                        <span class="detail-value" id="patterns">-</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Análisis:</span>
+                        <span class="detail-value" id="analysis">-</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Humanizer Panel -->
+        <div class="panel" id="humanizer-panel">
+            <textarea id="humanize-input" placeholder="Pega aquí el texto que quieres humanizar..."></textarea>
+            
+            <div class="options">
+                <label class="option" id="opt-formal">
+                    <input type="checkbox">
+                    <div class="option-title"><i class="fas fa-comment-dots"></i> Menos formal</div>
+                    <div class="option-desc">Lenguaje coloquial y juvenil</div>
+                </label>
+                <label class="option" id="opt-summary">
+                    <input type="checkbox">
+                    <div class="option-title"><i class="fas fa-compress-alt"></i> Resumir</div>
+                    <div class="option-desc">Acortar el texto</div>
+                </label>
+                <label class="option" id="opt-typos">
+                    <input type="checkbox">
+                    <div class="option-title"><i class="fas fa-keyboard"></i> Faltas</div>
+                    <div class="option-desc">Errores ortográficos</div>
+                </label>
+            </div>
+            
+            <button class="btn" id="humanize-btn">
+                <i class="fas fa-magic"></i> Humanizar texto
+            </button>
+            
+            <div class="result" id="humanize-result">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                    <strong><i class="fas fa-check-circle" style="color: var(--success);"></i> Texto humanizado</strong>
+                    <button class="copy-btn" id="copy-btn"><i class="fas fa-copy"></i> Copiar</button>
+                </div>
+                <div class="humanized-text" id="humanized-text"></div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>&copy; 2026 Detector de IA · <a href="privacy.html">Privacidad</a> · <a href="cookies.html">Cookies</a> · <a href="terms.html">Términos</a></p>
+        </footer>
+    </div>
+    
+    <!-- Cookie Banner -->
+    <div class="cookie-banner" id="cookie-banner">
+        <div class="cookie-content">
+            <p>Utilizamos cookies para mejorar tu experiencia. <a href="cookies.html">Más información</a></p>
+            <div class="cookie-btns">
+                <button class="cookie-btn accept" id="accept-cookies">Aceptar</button>
+                <button class="cookie-btn reject" id="reject-cookies">Rechazar</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // Cookie Manager
+        const CookieManager = {
+            init() {
+                this.banner = document.getElementById('cookie-banner');
+                if (!this.get('cookie_consent')) {
+                    setTimeout(() => this.banner.classList.add('show'), 1000);
+                }
+                
+                document.getElementById('accept-cookies').onclick = () => {
+                    this.set('cookie_consent', 'accepted', 365);
+                    this.banner.classList.remove('show');
+                    this.toast('Preferencias guardadas');
+                };
+                
+                document.getElementById('reject-cookies').onclick = () => {
+                    this.set('cookie_consent', 'rejected', 365);
+                    this.banner.classList.remove('show');
+                    this.toast('Preferencias guardadas');
+                };
+            },
+            
+            set(name, value, days) {
+                const d = new Date();
+                d.setTime(d.getTime() + days * 24 * 60 * 60 * 1000);
+                document.cookie = `${name}=${value};expires=${d.toUTCString()};path=/`;
+            },
+            
+            get(name) {
+                const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+                return match ? match[2] : null;
+            },
+            
+            toast(msg) {
+                const toast = document.getElementById('toast');
+                toast.textContent = msg;
+                toast.classList.add('show');
+                setTimeout(() => toast.classList.remove('show'), 3000);
+            }
+        };
+        
+        // Tab Manager
+        const TabManager = {
+            init() {
+                document.querySelectorAll('.tab-btn').forEach(btn => {
+                    btn.onclick = () => {
+                        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                        document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+                        btn.classList.add('active');
+                        document.getElementById(btn.dataset.tab + '-panel').classList.add('active');
+                    };
+                });
+            }
+        };
+        
+        // Options
+        const OptionManager = {
+            init() {
+                document.querySelectorAll('.option').forEach(opt => {
+                    opt.onclick = () => opt.classList.toggle('selected');
+                });
+            }
+        };
+        
+        // Detector
+        const Detector = {
+            patterns: {
+                chatgpt: ['en conclusión', 'en resumen', 'cabe destacar', 'es importante mencionar', 'por lo tanto', 'sin embargo', 'no obstante', 'además', 'en primer lugar', 'en segundo lugar', 'cabe señalar', 'en términos generales'],
+                gemini: ['es importante tener en cuenta', 'hay que considerar', 'por consiguiente', 'así pues', 'de esta manera', 'con el fin de', 'dado que', 'visto que'],
+                claude: ['me gustaría', 'quisiera señalar', 'es relevante', 'resulta interesante', 'considero que', 'a mi juicio'],
+                general: ['asimismo', 'igualmente', 'del mismo modo', 'por el contrario', 'a diferencia de', 'en cambio', 'no solo', 'sino también']
+            },
+            
+            init() {
+                const input = document.getElementById('detect-input');
+                const btn = document.getElementById('detect-btn');
+                const chars = document.getElementById('detect-chars');
+                
+                input.oninput = () => chars.textContent = input.value.length;
+                
+                btn.onclick = () => this.analyze(input.value);
+            },
+            
+            analyze(text) {
+                if (text.length < 50) {
+                    CookieManager.toast('Mínimo 50 caracteres');
+                    return;
+                }
+                
+                const lower = text.toLowerCase();
+                let score = 0;
+                let patternCount = 0;
+                let modelScores = {};
+                
+                // Count patterns
+                Object.keys(this.patterns).forEach(model => {
+                    modelScores[model] = 0;
+                    this.patterns[model].forEach(p => {
+                        if (lower.includes(p)) {
+                            patternCount++;
+                            modelScores[model]++;
+                            score += 5;
+                        }
+                    });
+                });
+                
+                // Structure analysis
+                const sentences = text.split(/[.!?]+/).filter(s => s.trim());
+                if (sentences.length > 1) {
+                    const lengths = sentences.map(s => s.split(/\s+/).length);
+                    const avg = lengths.reduce((a, b) => a + b, 0) / lengths.length;
+                    if (avg > 15 && avg < 30) score += 20;
+                }
+                
+                score = Math.min(score, 100);
+                
+                // Get top model
+                const topModel = Object.keys(modelScores).reduce((a, b) => 
+                    modelScores[a] > modelScores[b] ? a : b
+                );
+                
+                const modelNames = {
+                    chatgpt: 'ChatGPT / GPT-4',
+                    gemini: 'Google Gemini',
+                    claude: 'Anthropic Claude',
+                    general: 'Modelo genérico'
+                };
+                
+                // Display result
+                const result = document.getElementById('detect-result');
+                const icon = document.getElementById('result-icon');
+                const title = document.getElementById('result-title');
+                const scoreEl = document.getElementById('score-value');
+                
+                result.classList.add('show');
+                
+                if (score < 30) {
+                    icon.className = 'result-icon human';
+                    icon.innerHTML = '<i class="fas fa-check"></i>';
+                    title.className = 'result-title human';
+                    title.textContent = 'Probablemente humano';
+                } else if (score < 60) {
+                    icon.className = 'result-icon mixed';
+                    icon.innerHTML = '<i class="fas fa-question"></i>';
+                    title.className = 'result-title mixed';
+                    title.textContent = 'Texto mixto';
+                } else {
+                    icon.className = 'result-icon ai';
+                    icon.innerHTML = '<i class="fas fa-robot"></i>';
+                    title.className = 'result-title ai';
+                    title.textContent = 'Probablemente IA';
+                }
+                
+                scoreEl.textContent = score + '%';
+                document.getElementById('model').textContent = modelScores[topModel] > 0 ? modelNames[topModel] : 'No detectado';
+                document.getElementById('patterns').textContent = patternCount + ' patrones';
+                document.getElementById('analysis').textContent = sentences.length > 3 ? 'Estructura analizada' : 'Insuficiente';
+                
+                result.scrollIntoView({ behavior: 'smooth' });
+            }
+        };
+        
+        // Humanizer
+        const Humanizer = {
+            replacements: {
+                'por lo tanto': 'así que',
+                'sin embargo': 'pero',
+                'no obstante': 'aunque',
+                'en conclusión': 'en fin',
+                'en resumen': 'vamos',
+                'cabe destacar': 'bueno',
+                'es importante mencionar': 'ojo que',
+                'en primer lugar': 'primero',
+                'además': 'y también',
+                'por consiguiente': 'entonces'
+            },
+            
+            init() {
+                document.getElementById('humanize-btn').onclick = () => this.humanize();
+                document.getElementById('copy-btn').onclick = () => this.copy();
+            },
+            
+            humanize() {
+                const text = document.getElementById('humanize-input').value.trim();
+                if (text.length < 20) {
+                    CookieManager.toast('Mínimo 20 caracteres');
+                    return;
+                }
+                
+                let result = text;
+                
+                // Apply replacements
+                Object.keys(this.replacements).forEach(k => {
+                    result = result.replace(new RegExp(k, 'gi'), this.replacements[k]);
+                });
+                
+                // Less formal
+                if (document.getElementById('opt-formal').classList.contains('selected')) {
+                    result = result.replace(/\bimplementar\b/gi, 'hacer');
+                    result = result.replace(/\boptimizar\b/gi, 'mejorar');
+                    result = result.replace(/\banalizar\b/gi, 'mirar');
+                }
+                
+                // Summary
+                if (document.getElementById('opt-summary').classList.contains('selected')) {
+                    const sentences = result.split(/[.!?]+/).filter(s => s.trim());
+                    if (sentences.length > 3) {
+                        result = sentences[0] + '. ' + sentences[sentences.length - 1] + '.';
+                    }
+                }
+                
+                // Typos
+                if (document.getElementById('opt-typos').classList.contains('selected')) {
+                    result = result.replace(/\bque\b/g, 'q');
+                    result = result.replace(/\bpara\b/g, 'pa');
+                }
+                
+                document.getElementById('humanized-text').textContent = result;
+                document.getElementById('humanize-result').classList.add('show');
+                document.getElementById('humanize-result').scrollIntoView({ behavior: 'smooth' });
+            },
+            
+            copy() {
+                navigator.clipboard.writeText(document.getElementById('humanized-text').textContent);
+                CookieManager.toast('Copiado al portapapeles');
+            }
+        };
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            CookieManager.init();
+            TabManager.init();
+            OptionManager.init();
+            Detector.init();
+            Humanizer.init();
+        });
+    </script>
+</body>
+</html>
