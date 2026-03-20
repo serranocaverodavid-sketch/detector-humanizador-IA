@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://serranocaverodavid-sketch.github.io/detector-humanizador-IA/sitemap.xml
